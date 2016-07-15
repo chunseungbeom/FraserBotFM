@@ -1,0 +1,25 @@
+{
+  "name": "fraser_bot",
+  "version": "1.0.0",
+  "description": "A Facebook Messenger chatbot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FMcIntosh/FraserBotFM.git"
+  },
+  "author": "Fraser McIntosh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FMcIntosh/FraserBotFM/issues"
+  },
+  "homepage": "https://github.com/FMcIntosh/FraserBotFM#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "request": "^2.73.0"
+  }
+}
