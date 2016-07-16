@@ -32,9 +32,10 @@ app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
     for (var i = 0; i < events.length; i++) {
         var event = events[i];
-       if (event.message && event.message.text) {
-            if (!kittenMessage(event.sender.id, event.message.text)) {
-                sendMessage(event.sender.id, {text: "Echo: " + event.message.text});
+        var messageText = event.message.text;
+       if (event.message && messageText) {
+            if (!kittenMessage(event.sender.id, messageText)) {
+                sendMessage(event.sender.id, {text: "Echo: " + messageText});
             }
         } else if (event.postback) {
             console.log("Postback received: " + JSON.stringify(event.postback));
@@ -42,6 +43,7 @@ app.post('/webhook', function (req, res) {
     }
     res.sendStatus(200);
 });
+
 // generic function sending messages
 function sendMessage(recipientId, message) {
     request({
@@ -72,7 +74,7 @@ function kittenMessage(recipientId, text) {
             
             var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
             
-            message = {
+            var message = {
                 "attachment": {
                     "type": "template",
                     "payload": {
