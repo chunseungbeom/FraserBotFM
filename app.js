@@ -30,14 +30,16 @@ var express = require("express"),
  // handler receiving messages
 app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
-    for (i = 0; i < events.length; i++) {
+    for (var i = 0; i < events.length; i++) {
         var event = events[i];
         if (event.message && event.message.text) {
             if (!kittenMessage(event.sender.id, event.message.text)) {
                 sendMessage(event.sender.id, {text: "Echo: " + event.message.text});
             }
+        } else if (event.postback) {
+            console.log("Postback received: " + JSON.stringify(event.postback));
         }
-    }
+            }
     res.sendStatus(200);
 });
 
@@ -71,7 +73,7 @@ function kittenMessage(recipientId, text) {
             
             var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
             
-            message = {
+           var message = {
                 "attachment": {
                     "type": "template",
                     "payload": {
