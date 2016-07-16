@@ -75,7 +75,7 @@ function seenMessage(recipientId) {
         method: 'POST',
         json: {
             recipient: {id: recipientId},
-            sender_action: ["typing_on", "mark_seen"],
+            sender_action: "mark_seen",
         }
     }, function(error, response, body) {
         if (error) {
