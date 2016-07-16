@@ -92,7 +92,7 @@ function seenMessage(recipientId, fn) {
             console.log('Error: ', response.body.error);
         } else {
             if(fn){
-                setTimeout(fn, 2000);
+                setTimeout(fn, 20000);
             }
         }
     });
