@@ -51,10 +51,12 @@ app.post('/webhook', function (req, res) {
 
 function message(recipientId, message){
     seenMessage(recipientId, typingMessage);
-  //  setTimeout(typingMessage(recipientId), 4000);
+  setTimeout(function(){
+       typingMessage(recipientId, message)
+       }, 5000);
    setTimeout(function(){
        sendMessage(recipientId, message)
-       }, 5000);
+       }, 8000);
     
 }
 
