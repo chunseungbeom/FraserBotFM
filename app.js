@@ -38,7 +38,7 @@ app.post('/webhook', function (req, res) {
                 seenMessage(event.sender.id);
             } else if(!buttonMessage(event.sender.id, event.message.text)){
                 if (!kittenMessage(event.sender.id, event.message.text)) {
-                    sendMessage(event.sender.id, {text: "Echo: " + event.message.text});
+                    message(event.sender.id, {text: "Echo: " + event.message.text});
                 }
             }
         } else if (event.postback) {
