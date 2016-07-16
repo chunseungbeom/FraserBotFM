@@ -116,8 +116,6 @@ function buttonMessage(recipientId, text) {
     
     if(text === "buttons"){
             
-            var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
-            
             var message = {
               "type":"template",
               "payload":{
