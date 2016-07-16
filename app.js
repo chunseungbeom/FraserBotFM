@@ -28,15 +28,14 @@ var express = require("express"),
     
 //=====================================================================================================================
  // handler receiving messages
+// handler receiving messages
 app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
     for (var i = 0; i < events.length; i++) {
         var event = events[i];
-        var messageText = event.message.text;
-        var senderID = event.sender.id;
-       if (event.message && messageText) {
-            if (!kittenMessage(event.sender.id, messageText)) {
-                sendMessage(event.sender.id, {text: "Echo: " + messageText});
+        if (event.message && event.message.text) {
+            if (!kittenMessage(event.sender.id, event.message.text)) {
+                sendMessage(event.sender.id, {text: "Echo: " + event.message.text});
             }
         } else if (event.postback) {
             console.log("Postback received: " + JSON.stringify(event.postback));
