@@ -28,7 +28,6 @@ var express = require("express"),
     
 //=====================================================================================================================
  // handler receiving messages
-// handler receiving messages
 app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
     for (var i = 0; i < events.length; i++) {
@@ -37,7 +36,7 @@ app.post('/webhook', function (req, res) {
             if(event.message.text === "seen"){
                 seenMessage(event.sender.id);
             } else if(!buttonMessage(event.sender.id, event.message.text)){
-                if (!kittenMessage(event.sender.id, event.message.text)) {
+                if (!quickRepliesMessage(event.sender.id, event.message.text)) {
                     respond(event.sender.id, {text: "Echo: " + event.message.text});
                 }
             }
@@ -49,6 +48,7 @@ app.post('/webhook', function (req, res) {
     res.sendStatus(200);
 });
 
+//Message response function. Sees message, shows typing symbol then replies
 function respond(recipientId, message) {
     seenMessage(recipientId, typingMessage);
   setTimeout(function(){
@@ -80,6 +80,7 @@ function sendMessage(recipientId, message) {
     });
 };
 
+//
 function seenMessage(recipientId) {
  request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -115,6 +116,7 @@ function typingMessage(recipientId){
         }
     });
 };
+
 // send rich message with kitten
 function kittenMessage(recipientId, text) {
     
@@ -201,6 +203,77 @@ function buttonMessage(recipientId, text) {
     return false;
     
 };
+
+function quickRepliesMessage(recipientId, text) {
+    
+    text = text || "";
+    
+    if(text === "quick"){
+        var message = {
+            "text":"Pick a color:",
+            "quick_replies":[
+              {
+                "content_type":"text",
+                "title":"Red",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+              },
+              {
+                "content_type":"text",
+                "title":"Green",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+              }
+            ]
+          }
+        
+            respond(recipientId, message);
+            
+            return true;
+        }
+    
+    
+    return false;
+    
+};
+
+
+
+
+
+function initialState(recipientId, subState) {
+        var text = "";
+        if(subState === "newPerson") {
+             text = namedGreeting();
+        } else if (subState === "familiarPerson") {
+            text = greeting();
+        }
+        
+      var message = {
+            "attachment": {
+                  "type":"template",
+                  "payload":{
+                    "template_type": "button",
+                    "text": text,
+                    "buttons":[
+                      {
+                        "type":"postback",
+                        "title":"Leave message for Fraser",
+                        "payload":"leaveMessage"
+                      },
+                      {
+                        "type":"postback",
+                        "title":"Chat with me",
+                        "payload":"chat"
+                      },
+                       {
+                        "type":"postback",
+                        "title":"Annoy Fraser",
+                        "payload":"annoy"
+                      }
+                    ]
+                  }
+              }
+            };
+}
 
 
 //  "attachment": {
