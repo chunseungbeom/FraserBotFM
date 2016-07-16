@@ -34,8 +34,10 @@ app.post('/webhook', function (req, res) {
     for (var i = 0; i < events.length; i++) {
         var event = events[i];
         if (event.message && event.message.text) {
-            if (!kittenMessage(event.sender.id, event.message.text)) {
-                sendMessage(event.sender.id, {text: "Echo: " + event.message.text});
+            if(!buttonMessage(event.sender.id, event.message.text)){
+                if (!kittenMessage(event.sender.id, event.message.text)) {
+                    sendMessage(event.sender.id, {text: "Echo: " + event.message.text});
+                }
             }
         } else if (event.postback) {
             console.log("Postback received: " + JSON.stringify(event.postback.payload));
@@ -103,6 +105,44 @@ function kittenMessage(recipientId, text) {
             return true;
         }
     }
+    
+    return false;
+    
+};
+
+function buttonMessage(recipientId, text) {
+    
+    text = text || "";
+    
+    if(text === "buttons"){
+            
+            var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
+            
+            var message = {
+              "type":"template",
+              "payload":{
+                "template_type":"button",
+                "text":"What do you want to do next?",
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://petersapparel.parseapp.com",
+                    "title":"Show Website"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Start Chatting",
+                    "payload":"USER_DEFINED_PAYLOAD"
+                  }
+                ]
+              }
+            };
+    
+            sendMessage(recipientId, message);
+            
+            return true;
+        }
+    
     
     return false;
     
