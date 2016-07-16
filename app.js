@@ -101,7 +101,7 @@ function typingMessage(recipientId){
         method: 'POST',
         json: {
             recipient: {id: recipientId},
-            sender_action: "mark_seen",
+            sender_action: "typing_on",
         }
     }, function(error, response, body) {
         if (error) {
