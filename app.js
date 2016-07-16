@@ -53,10 +53,10 @@ function message(recipientId, message){
     seenMessage(recipientId, typingMessage);
   setTimeout(function(){
        typingMessage(recipientId, message)
-       }, 5000);
+       }, 6000);
    setTimeout(function(){
        sendMessage(recipientId, message)
-       }, 8000);
+       }, 10000);
     
 }
 
