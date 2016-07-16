@@ -50,8 +50,8 @@ app.post('/webhook', function (req, res) {
 });
 
 function message(recipientId, message){
-    seenMessage(recipientId);
-    typingMessage(recipientId);
+    seenMessage(recipientId, typingMessage(recipientId));
+  //  setTimeout(typingMessage(recipientId), 4000);
    // setTimeout(sendMessage(recipientId, message), 5000);
     
 }
@@ -76,7 +76,7 @@ function sendMessage(recipientId, message) {
     });
 };
 
-function seenMessage(recipientId) {
+function seenMessage(recipientId, fn) {
  request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
@@ -90,6 +90,10 @@ function seenMessage(recipientId) {
             console.log('Error sending message: ', error);
         } else if (response.body.error) {
             console.log('Error: ', response.body.error);
+        } else {
+            if(fn){
+                setTimeout(fn, 2000);
+            }
         }
     });
 };
