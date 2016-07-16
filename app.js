@@ -149,7 +149,7 @@ function kittenMessage(recipientId, text) {
                 }
             };
     
-            sendMessage(recipientId, message);
+            message(recipientId, message);
             
             return true;
         }
@@ -192,7 +192,7 @@ function buttonMessage(recipientId, text) {
               }
             };
     
-            sendMessage(recipientId, message);
+            message(recipientId, message);
             
             return true;
         }
