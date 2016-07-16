@@ -121,17 +121,22 @@ function buttonMessage(recipientId, text) {
                   "type":"template",
                   "payload":{
                     "template_type": "button",
-                    "text":"What do you want to do next?",
+                    "text":"How can I be of service?",
                     "buttons":[
                       {
-                        "type":"web_url",
-                        "url":"https://petersapparel.parseapp.com",
-                        "title":"Show Website"
+                        "type":"postback",
+                        "title":"Leave a message for Fraser",
+                        "payload":"leaveMessage"
                       },
                       {
                         "type":"postback",
-                        "title":"Start Chatting",
-                        "payload":"USER_DEFINED_PAYLOAD"
+                        "title":"Chat with me",
+                        "payload":"chat"
+                      },
+                       {
+                        "type":"postback",
+                        "title":"Annoy Fraser",
+                        "payload":"annoy"
                       }
                     ]
                   }
@@ -147,3 +152,25 @@ function buttonMessage(recipientId, text) {
     return false;
     
 };
+
+
+//  "attachment": {
+//                   "type":"template",
+//                   "payload":{
+//                     "template_type": "button",
+//                     "text":"What do you want to do next?",
+//                     "buttons":[
+//                       {
+//                         "type":"web_url",
+//                         "url":"https://petersapparel.parseapp.com",
+//                         "title":"Show Website"
+//                       },
+//                       {
+//                         "type":"postback",
+//                         "title":"Start Chatting",
+//                         "payload":"USER_DEFINED_PAYLOAD"
+//                       }
+//                     ]
+//                   }
+//               }
+//             };
