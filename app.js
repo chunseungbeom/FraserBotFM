@@ -38,7 +38,7 @@ app.post('/webhook', function (req, res) {
                 seenMessage(event.sender.id);
             } else if(!buttonMessage(event.sender.id, event.message.text)){
                 if (!kittenMessage(event.sender.id, event.message.text)) {
-                    message(event.sender.id, {text: "Echo: " + event.message.text});
+                    respond(event.sender.id, {text: "Echo: " + event.message.text});
                 }
             }
         } else if (event.postback) {
@@ -49,7 +49,7 @@ app.post('/webhook', function (req, res) {
     res.sendStatus(200);
 });
 
-function message(recipientId, message){
+function respond(recipientId, message) {
     seenMessage(recipientId, typingMessage);
   setTimeout(function(){
        typingMessage(recipientId, message)
@@ -149,7 +149,7 @@ function kittenMessage(recipientId, text) {
                 }
             };
     
-            message(recipientId, message);
+            respond(recipientId, message);
             
             return true;
         }
@@ -192,7 +192,7 @@ function buttonMessage(recipientId, text) {
               }
             };
     
-            message(recipientId, message);
+            respond(recipientId, message);
             
             return true;
         }
