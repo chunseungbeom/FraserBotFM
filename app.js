@@ -33,6 +33,7 @@ app.post('/webhook', function (req, res) {
     for (var i = 0; i < events.length; i++) {
         var event = events[i];
         var messageText = event.message.text;
+        var senderID = event.sender.id;
        if (event.message && messageText) {
             if (!kittenMessage(event.sender.id, messageText)) {
                 sendMessage(event.sender.id, {text: "Echo: " + messageText});
@@ -74,7 +75,7 @@ function kittenMessage(recipientId, text) {
             
             var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
             
-            message = {
+            var message = {
                 "attachment": {
                     "type": "template",
                     "payload": {
