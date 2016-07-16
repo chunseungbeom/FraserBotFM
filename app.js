@@ -42,7 +42,8 @@ app.post('/webhook', function (req, res) {
             }
         } else if (event.postback) {
             console.log("Postback received: " + JSON.stringify(event.postback));
-            sendMessage(senderID, event.postback.payload);
+          //  sendMessage(senderID, event.postback.payload);
+          console.log("Payload")
         }
             }
     res.sendStatus(200);
