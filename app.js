@@ -50,7 +50,7 @@ app.post('/webhook', function (req, res) {
 });
 
 function message(recipientId, message){
-    seenMessage(recipientId, typingMessage(recipientId));
+    seenMessage(recipientId, typingMessage;
   //  setTimeout(typingMessage(recipientId), 4000);
    // setTimeout(sendMessage(recipientId, message), 5000);
     
@@ -92,7 +92,9 @@ function seenMessage(recipientId, fn) {
             console.log('Error: ', response.body.error);
         } else {
             if(fn){
-                setTimeout(fn, 20000);
+                setTimeout(function(){
+                    fn(recipientId);
+                    }, 2000);
             }
         }
     });
