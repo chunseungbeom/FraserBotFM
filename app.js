@@ -36,14 +36,12 @@ app.post('/webhook', function (req, res) {
         var senderID = event.sender.id;
         var messageText = event.message.text
         // If the event is a message type and it also contains text
-        if (event.message && messageText) {
-            if (!kittenMessage(senderID, messageText)) {
-                sendMessage(senderID, {text: "Echo: " + messageText});
+        if (event.message && event.message.text) {
+            if (!kittenMessage(event.sender.id, event.message.text)) {
+                sendMessage(event.sender.id, {text: "Echo: " + event.message.text});
             }
         } else if (event.postback) {
             console.log("Postback received: " + JSON.stringify(event.postback));
-          //  sendMessage(senderID, event.postback.payload);
-          console.log("Payload")
         }
             }
     res.sendStatus(200);
