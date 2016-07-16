@@ -80,7 +80,7 @@ function sendMessage(recipientId, message) {
     });
 };
 
-function seenMessage(recipientId, fn) {
+function seenMessage(recipientId) {
  request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
@@ -94,13 +94,7 @@ function seenMessage(recipientId, fn) {
             console.log('Error sending message: ', error);
         } else if (response.body.error) {
             console.log('Error: ', response.body.error);
-        } else {
-            if(fn){
-                setTimeout(function(){
-                    fn(recipientId);
-                    }, 2000);
-            }
-        }
+        } 
     });
 };
 
