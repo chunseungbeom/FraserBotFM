@@ -6,8 +6,12 @@ var express = require("express"),
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(bodyParser.json());
     
+    var tools = require('./greetings');
+    //console.log(tools.namedGreeting());
+    
      app.listen(process.env.PORT, process.env.IP, function() {
         console.log("FraserBot is underway!!...Finally")
+         console.log(tools.greeting("Fraser"));
     })
     
     // Routes ==========================================================
@@ -33,8 +37,8 @@ app.post('/webhook', function (req, res) {
     for (var i = 0; i < events.length; i++) {
         var event = events[i];
         if (event.message && event.message.text) {
-            if(event.message.text === "seen"){
-                seenMessage(event.sender.id);
+            if(event.message.text === "hello"){
+                respond(event.sender.id, {text: tools.greeting("Fraser")});
             } else if(!buttonMessage(event.sender.id, event.message.text)){
                 if (!quickRepliesMessage(event.sender.id, event.message.text)) {
                     respond(event.sender.id, {text: "Echo: " + event.message.text});
