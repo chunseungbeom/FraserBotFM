@@ -6,7 +6,7 @@ var express = require("express"),
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(bodyParser.json());
     
-    var tools = require('./greetings');
+    var tools = require('./replies/greetings');
     //console.log(tools.namedGreeting());
     
      app.listen(process.env.PORT, process.env.IP, function() {
@@ -46,124 +46,16 @@ app.post('/webhook', function (req, res) {
             }
         } else if (event.postback) {
             console.log("Postback received: " + JSON.stringify(event.postback.payload));
-            sendMessage(event.sender.id, {text: JSON.stringify(event.postback.payload)});
+            respond(event.sender.id, {text: JSON.stringify(event.postback.payload)});
         }
     }
     res.sendStatus(200);
 });
 
-//Message response function. Sees message, shows typing symbol then replies
-function respond(recipientId, message) {
-    seenMessage(recipientId, typingMessage);
-  setTimeout(function(){
-       typingMessage(recipientId, message)
-       }, 6000);
-   setTimeout(function(){
-       sendMessage(recipientId, message)
-       }, 10000);
-    
-}
 
+var respondTools = require('./respond');
 
-// generic function sending messages
-function sendMessage(recipientId, message) {
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
-        method: 'POST',
-        json: {
-            recipient: {id: recipientId},
-            message: message,
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending message: ', error);
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error);
-        }
-    });
-};
-
-//
-function seenMessage(recipientId) {
- request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
-        method: 'POST',
-        json: {
-            recipient: {id: recipientId},
-            sender_action: "mark_seen",
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending message: ', error);
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error);
-        } 
-    });
-};
-
-function typingMessage(recipientId){
- request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
-        method: 'POST',
-        json: {
-            recipient: {id: recipientId},
-            sender_action: "typing_on",
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending message: ', error);
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error);
-        }
-    });
-};
-
-// send rich message with kitten
-function kittenMessage(recipientId, text) {
-    
-    text = text || "";
-    var values = text.split(' ');
-    
-    if (values.length === 3 && values[0] === 'kitten') {
-        if (Number(values[1]) > 0 && Number(values[2]) > 0) {
-            
-            var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
-            
-            var message = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [{
-                            "title": "Kitten",
-                            "subtitle": "Cute kitten picture",
-                            "image_url": imageUrl ,
-                            "buttons": [{
-                                "type": "web_url",
-                                "url": imageUrl,
-                                "title": "Show kitten"
-                                }, {
-                                "type": "postback",
-                                "title": "I like this",
-                                "payload": "User " + recipientId + " likes kitten " + imageUrl,
-                            }]
-                        }]
-                    }
-                }
-            };
-    
-            respond(recipientId, message);
-            
-            return true;
-        }
-    }
-    
-    return false;
-    
-};
+var respond = respondTools.respond;
 
 function buttonMessage(recipientId, text) {
     
@@ -320,3 +212,47 @@ function initialState(recipientId, subState) {
 //                   }
 //               }
 //             };
+
+// // send rich message with kitten
+// function kittenMessage(recipientId, text) {
+    
+//     text = text || "";
+//     var values = text.split(' ');
+    
+//     if (values.length === 3 && values[0] === 'kitten') {
+//         if (Number(values[1]) > 0 && Number(values[2]) > 0) {
+            
+//             var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
+            
+//             var message = {
+//                 "attachment": {
+//                     "type": "template",
+//                     "payload": {
+//                         "template_type": "generic",
+//                         "elements": [{
+//                             "title": "Kitten",
+//                             "subtitle": "Cute kitten picture",
+//                             "image_url": imageUrl ,
+//                             "buttons": [{
+//                                 "type": "web_url",
+//                                 "url": imageUrl,
+//                                 "title": "Show kitten"
+//                                 }, {
+//                                 "type": "postback",
+//                                 "title": "I like this",
+//                                 "payload": "User " + recipientId + " likes kitten " + imageUrl,
+//                             }]
+//                         }]
+//                     }
+//                 }
+//             };
+    
+//             respond(recipientId, message);
+            
+//             return true;
+//         }
+//     }
+    
+//     return false;
+    
+// };
