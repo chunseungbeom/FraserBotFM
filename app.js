@@ -46,6 +46,9 @@ app.post('/webhook', function (req, res) {
                 }
             }
         } else if (event.postback) {
+            if(JSON.stringify(event.postback.payload === "getStarted")){
+                sendMessage(event.sender.id, {text: "Welcome to FraserBot"})
+            }
             console.log("Postback received: " + JSON.stringify(event.postback.payload));
             respond(event.sender.id, {text: JSON.parse(event.postback.payload)});
         }
@@ -64,7 +67,7 @@ var start = function() {
               thread_state:"new_thread",
               call_to_actions:[
                 {
-                  "payload":"USER_DEFINED_PAYLOAD"
+                  "payload":"getStarted"
                 }
             ]
         }
@@ -87,6 +90,7 @@ var start = function() {
 var respondTools = require('./respond');
 
 var respond = respondTools.respond;
+var sendMessage =respond.Tools.sendMessage;
 
 function buttonMessage(recipientId, text) {
     
