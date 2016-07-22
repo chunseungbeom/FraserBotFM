@@ -90,7 +90,7 @@ var start = function() {
 var respondTools = require('./respond');
 
 var respond = respondTools.respond;
-var sendMessage =respond.Tools.sendMessage;
+var sendMessage =respondTools.sendMessage;
 
 function buttonMessage(recipientId, text) {
     
