@@ -46,6 +46,8 @@ app.post('/webhook', function (req, res) {
                 }
             }
         } else if (event.postback) {
+            console.log(event.postback.payload);
+            console.log(JSON.stringify(event.postback.payload));
             if(JSON.stringify(event.postback.payload) === "getStarted"){
                 console.logJSON.stringify(event.postback.payload);
                 sendMessage(event.sender.id, tools.firstGreeting("Fraser"))
