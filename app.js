@@ -46,7 +46,7 @@ app.post('/webhook', function (req, res) {
                 }
             }
         } else if (event.postback) {
-            if(JSON.stringify(event.postback.payload === "getStarted")){
+            if(JSON.stringify(event.postback.payload) === "getStarted"){
                 sendMessage(event.sender.id, {text: tools.firstGreeting("Fraser")})
             }
             console.log("Postback received: " + JSON.stringify(event.postback.payload));
