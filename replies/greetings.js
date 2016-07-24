@@ -1,20 +1,15 @@
 module.exports = {
-  greeting: greeting,
-  firstGreeting: firstGreeting
-}
-
-var genericGreeting =  function (arr, name) {
-      var greetingStr = randFromArray(arr);
+  greeting: function (name) {
+      var greetingStr = randFromArray(greetingsArr);
       if(name) {
           greetingStr = randFromArray(hiArray) + " " + name + "! " + greetingStr;
       }
     return greetingStr;
+  },
+  bar: function () {
+    // whatever
   }
-  
-  // May have totally over complicated this
-  // Not sure I want greeting and firstGreeting to be coupled like this but an interesting use of bind
- var greeting = genericGreeting.bind(this, greetingsArr);
- var firstGreeting = genericGreeting.bind(this, firstGreetingsArr);
+};
 
 var greetingsArr = [
     "How's it going?",
@@ -38,9 +33,3 @@ var hiArray = [
     "Yo",
     "Sup"
     ];
-    
-var firstGreetingsArr = [
-    "Thanks for dropping by!",
-    "Nice to see you here!",
-    "Glad you could make it!",
-    ]
