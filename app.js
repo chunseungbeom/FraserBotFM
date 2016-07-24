@@ -37,17 +37,19 @@ app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
     for (var i = 0; i < events.length; i++) {
         var event = events[i];
+        var name = "Fraser";
         if (event.message && event.message.text) {
             if(event.message.text === "hello"){
-                respond(event.sender.id, {text: tools.greeting("Fraser")});
+                respond(event.sender.id, {text: tools.greeting(name)});
             } else if(!buttonMessage(event.sender.id, event.message.text)){
                 if (!quickRepliesMessage(event.sender.id, event.message.text)) {
                     respond(event.sender.id, {text: "Echo: " + event.message.text});
                 }
             }
         } else if (event.postback) {
+            // Getting started button has been pressed
             if(JSON.stringify(event.postback.payload === "getStarted")){
-                sendMessage(event.sender.id, {text: "Welcome to FraserBot"})
+                sendMessage(event.sender.id, {text: tools.firstGreeting(name)})
             }
             console.log("Postback received: " + JSON.stringify(event.postback.payload));
             respond(event.sender.id, {text: JSON.parse(event.postback.payload)});
@@ -56,7 +58,7 @@ app.post('/webhook', function (req, res) {
     res.sendStatus(200);
 });
 
-//Getting started
+//Getting started button -------------------------------------------
 var start = function() {
      request({
             url: "https://graph.facebook.com/v2.6/me/thread_settings?access_token=PAGE_ACCESS_TOKEN",
