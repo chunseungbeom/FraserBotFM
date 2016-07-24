@@ -52,7 +52,7 @@ app.post('/webhook', function (req, res) {
                 console.logJSON.stringify(event.postback.payload);
                 sendMessage(event.sender.id, tools.firstGreeting("Fraser"))
             }
-             console.log(event.postback.payload);
+             console.log(typeof(event.postback.payload));
             console.log(JSON.stringify(event.postback.payload));
             console.log("Postback received: " + JSON.stringify(event.postback.payload));
             respond(event.sender.id, {text: JSON.stringify(event.postback.payload)});
