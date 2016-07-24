@@ -6,9 +6,36 @@ module.exports = {
       }
     return greetingStr;
   },
-  firstGreeting : function (name) {
-    return "Hi " + name + "! It's great that you could stop by and say hello. I'm basically a more interesting version of Fraser that actually replies to messages. What would you like to talk about?";
-  }
+  firstGreeting : function (recipientId, name) {
+            var text =  "Hi " + name + "! It's great that you could stop by and say hello. I'm basically a more interesting version of Fraser that actually replies to messages.";
+            var message = {
+            "attachment": {
+                  "type":"template",
+                  "payload":{
+                    "template_type": "button",
+                    "text": text,
+                    "buttons":[
+                      {
+                        "type":"postback",
+                        "title":"Leave a message for Fraser",
+                        "payload":"leaveMessage"
+                      },
+                      {
+                        "type":"postback",
+                        "title":"Chat with me",
+                        "payload":"chat"
+                      },
+                       {
+                        "type":"postback",
+                        "title":"Annoy Fraser",
+                        "payload":"annoy"
+                      }
+                    ]
+                  }
+              }
+            };
+  },
+
 };
 
 var greetingsArr = [
