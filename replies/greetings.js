@@ -6,8 +6,8 @@ module.exports = {
       }
     return greetingStr;
   },
-  bar: function () {
-    // whatever
+  firstGreeting : function (name) {
+    return "Hi " + name + "! It's great that you could stop by and say hello. I'm basically a more interesting version of Fraser that actually replies to messages. What would you like to talk about?";
   }
 };
 
